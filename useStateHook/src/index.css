@@ -25,6 +25,9 @@ body {
   height: 100vh;
   width: 100%;
   margin: auto;
+  max-width: 500px;
+  border: 1px solid mediumblue;
+  
   
 }
 header{
