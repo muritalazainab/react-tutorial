@@ -1,6 +1,7 @@
 
 import "./Content.css";
-import { FaTrash } from "react-icons/fa";
+import ListItem from "./ListItem";
+
 
 const Content = ({items, handleCheck, handleDelete}) => {
   // const [name, setName] = useState('Bashirat')
@@ -8,22 +9,12 @@ const Content = ({items, handleCheck, handleDelete}) => {
 
   return (
     <main className="student">
-      {items.length ? (      <ul>
-        {items.map((item) => (
-          <li className="item" key={item.id}>
-            <input
-              type="checkbox"
-              onClick={() => handleCheck(item.id)}
-              checked={item.checked}
-            />
-           
-            <label
-             style={(item.checked) ? {textDecoration: "line-through"} : null}
-             onDoubleClick={() => handleCheck(item.id)}> {item.item} </label>
-            <FaTrash onDoubleClick={() => handleDelete(item.id)} role="button" tabIndex="0"/>
-          </li >
-        ))}
-      </ul>
+      {items.length ? (     
+        <ListItem 
+          items={items}
+          handleCheck={handleCheck}
+          handleDelete={handleDelete}
+        />
       ) : (
         <p style={{marginTop:"2rem"}}>Your list is empty</p>
       )}

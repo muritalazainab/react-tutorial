@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Footer = ({length}) => {
-    const currentYear = new Date();
+    // const currentYear = new Date();
 
     return (
     <footer>

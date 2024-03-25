@@ -29,6 +29,7 @@ function App() {
       item: "ponmo",
     },
   ]);
+  const [newItem, setNewItem] = useState('')
   const handleCheck = (id) => {
     // console.log(`key: ${id}`)
     const listItems = items.map((item) =>
@@ -41,6 +42,12 @@ function App() {
    const listItems = items.filter((item)=> item.id !==id);
    setItem(listItems)
   }
+  handleSubmit =( e) => {
+    e.preventDefault();
+    if(!newItem) return;
+    setNewItem('')
+  }
+
   return (
     <div className="App">
       <Header  title = "Welcome to props"/>
