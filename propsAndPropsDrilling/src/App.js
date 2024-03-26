@@ -2,55 +2,56 @@ import { useState } from "react";
 import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
-
-
-// import Nav from "./nav";
+import AddItem from "./AddItem";
 
 function App() {
-  const [items, setItem] = useState([
-    {
-      id: 1,
-      checked: false,
-      item: "A bag of garri",
-    },
-    {
-      id: 2,
-      checked: false,
-      item: "A bag of rice",
-    },
-    {
-      id: 3,
-      checked: false,
-      item: "A bag of semo",
-    },
-    {
-      id: 4,
-      checked: false,
-      item: "ponmo",
-    },
-  ]);
+  const [items, setItem] = useState(JSON.parse(localStorage.getItem("shoppinglist")))
+   
+  const  setAndSaveItems = (newItems) => {
+   setItem(newItems)
+   localStorage.setItem('shoppingList', JSON.stringify(newItem));
+   
+
+  }
   const [newItem, setNewItem] = useState('')
-  const handleCheck = (id) => {
+
+  const addItem = (item) => {
+  const id = items.length ? items[items.length - 1].id + 1 : 1;
+  const myNewItem = {id, checked:false, item } 
+  const listItems = [...items, myNewItem]
+  setAndSaveItems(listItems)
+  // setItem(listItems);
+  // localStorage.setItem('shoppingList', JSON.stringify(listItems))
+}
+  const handleCheck = (value) => {
     // console.log(`key: ${id}`)
     const listItems = items.map((item) =>
-      item.id === id ? { ...item, checked: !item.checked } : item
+      item.id === value ? { ...item, checked: !item.checked } : item
+
     );
-    setItem(listItems);
-    localStorage.setItem('shoppingList', JSON.stringify(listItems));
+    // setItem(listItems);
+    // localStorage.setItem('shoppingList', JSON.stringify(listItems));
   };
   const handleDelete = (id)=>{
    const listItems = items.filter((item)=> item.id !==id);
+   
    setItem(listItems)
   }
-  handleSubmit =( e) => {
+  const handleSubmit =(e) => {
     e.preventDefault();
     if(!newItem) return;
+    addItem(newItem)
     setNewItem('')
   }
 
   return (
     <div className="App">
       <Header  title = "Welcome to props"/>
+      <AddItem  
+      newItem={newItem}
+      setNewItem={setNewItem}
+      handleSubmit={handleSubmit}
+      />
       <Content 
         items={items}
         handleCheck={handleCheck}

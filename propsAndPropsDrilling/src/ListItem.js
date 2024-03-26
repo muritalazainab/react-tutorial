@@ -14,7 +14,7 @@ const ListItem = ({items, handleCheck, handleDelete}) => {
           handleDelete={handleDelete}
         />
         );
-    })};
+    })}
       </ul>
   );
 
