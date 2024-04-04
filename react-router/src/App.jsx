@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import About from "./About"
 import Footer from "./Footer"
 import Header from "./Header"
@@ -44,10 +44,13 @@ function App() {
       body:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias maxime odit odio perspiciatis labore corporis hic, nisi omnis nulla tempore! Corporis doloremque, ut excepturi accusantium ipsa veritatis tempore velit temporibus?"
     },
   ])
+  const navigate = useNavigate()
   const [search, setSearch ] = useState('')
   const [searchResult, setSearchResult] = useState([])
-  const handleDelete = () => {
-    
+  const handleDelete = (id) => {
+    const postList = posts.filter(post => post.id !==id)
+    setPosts(postList)
+    navigate('/')
   }
   return (
     <div className="App">
