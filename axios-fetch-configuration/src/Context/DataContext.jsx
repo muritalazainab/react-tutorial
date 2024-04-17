@@ -1,25 +1,17 @@
-
-import About from "./About";
-import Footer from "./Footer";
-import Header from "./Header";
-import Home from "./Home";
-import Missing from "./Missing";
-import Nav from "./Nav";
-import NewPost from "./NewPost";
-import PostPage from "./PostPage";
-import EditPost from "./EditPost";
-
-
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
+import {  useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import api from "./api/post";
-import useWindowSize from "./hooks/useWindowSize";
-import useAxiosFetch from "./hooks/useAxiosFetch";
-import { DataProvider } from "./Context/DataContext";
+import api from "../api/post";
+import useWindowSize from "../hooks/useWindowSize";
+import useAxiosFetch from "../hooks/useAxiosFetch";
 
-function App() {
-  const [posts, setPosts] = useState([]);
+
+
+
+const DataContext = createContext({})
+
+export const DataProvider = ({children}) => {
+    const [posts, setPosts] = useState([]);
 
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -30,7 +22,7 @@ function App() {
   const [editPostBody, setEditPostBody] = useState("");
   const {width} = useWindowSize();
   const {data, fetchError, isLoading} = useAxiosFetch("http://localhost:4000/posts");
- 
+
   useEffect(() => {
     setPosts(data)
   }, [data]);
@@ -96,35 +88,19 @@ function App() {
   };
 
  
+    return(
+        <DataContext.Provider value= {{
+            width, search, setSearch,searchResults,fetchError, isLoading,
+             handleSubmit, postTitle, setPostTitle, postBody, setPostBody,  posts,
+             handleEdit,
+             editPostBody,
+             setEditPostBody,
+             editPostTitle,
+             setEditPostTitle,posts, handleDelete 
+        }}>
+            {children}
+            </DataContext.Provider>
 
-  return (
-    <div className="App">
-      <DataProvider>
-      <Header title="DLT Blogs" />
-      
-      <Nav  />
-      <Routes>
-        {/* <Route path="/" element={<Home posts={posts} />} /> */}
-
-        {/* Step 3 */}
-        <Route path="/" element={<Home />} />
-
-        {/* Step 1*/}
-        <Route path="/post" element={<NewPost />}/>
-
-        <Route path="/edit/:id"element={<EditPost/>}/>
-
-        <Route path="/post/:id"element={<PostPage  />} />
-
-        <Route path="/about" element={<About />} />
-
-        <Route path="*" element={<Missing />} />
-      </Routes>
-     <Footer />
-      </DataProvider>
-     
-    </div>
-  );
+    )
 }
-
-export default App;
+export default DataContext
